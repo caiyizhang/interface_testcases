@@ -50,7 +50,7 @@ class InterfaceTestcases(object):
     def createNoParamsCases(self) -> List:
         ''' 获取不传参数的用例。
             1、每个必选参数生成一个不带该参数的用例
-            2、所有非必选参数，生成一个不带所有必选参数的用例
+            2、所有非必选参数，生成一个不带所有非必选参数的用例
         '''
 
         cases = []
