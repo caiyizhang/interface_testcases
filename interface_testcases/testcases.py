@@ -23,7 +23,7 @@ class InterfaceTestcases(object):
         self.normal_cases = self.createPairs()
 
     def createPairs(self):
-        # 生成正常测试用例
+        ''' 生成正常测试用例 '''
         return [row + ['normal'] for row in AllPairs(self.normal_list)]
 
     def getRandomNormalCaseWithoutExcptParam(self, param_id: int) -> List:
@@ -35,7 +35,7 @@ class InterfaceTestcases(object):
         return [random.choice(row) for row in case]
 
     def createExceptionCases(self) -> List:
-        # 生成异常测试用例
+        ''' 生成异常测试用例 '''
 
         cases = []
         for i, exception_row in enumerate(self.params):
@@ -50,7 +50,7 @@ class InterfaceTestcases(object):
     def createNoParamsCases(self) -> List:
         ''' 获取不传参数的用例。
             1、每个必选参数生成一个不带该参数的用例
-            2、所有必选参数，生成一个不带所有必选参数的用例
+            2、所有非必选参数，生成一个不带所有必选参数的用例
         '''
 
         cases = []
