@@ -22,26 +22,27 @@
 
 ### 示例
 ```python
-    from interface_testcases.testcases import InterfaceTestcases
+
+from interface_testcases.testcases import InterfaceTestcases
 
 
-    # 传入参数一行代表一个参数，一个参数有3个属性。
-    # 前两个是列表，最后一个是布尔类型。分别是正常值、异常值和是否必选参数
-    params = [
-        [[1, 2], [0, 3], False],
-        [[-1, -2], [0, -3], True],
-        [[-3, 3], [-2, 4], False]
-    ]
-    for case in InterfaceTestcases(params):
-        print(case)
+# 传入参数一行代表一个参数，一个参数有3个属性。
+# 前两个是列表，最后一个是布尔类型。分别是正常值、异常值和是否必选参数
+params = [
+    [[1, 2], [0, 3], False],
+    [[-1, -2], [0, -3], True],
+    [[-3, 3], [-2, 4], False]
+]
+for case in InterfaceTestcases(params):
+    print(case)
 
 
+# 结合pytest
 import pytest
 
 
 class Test1(object):
 
-    # 结合pytest
     @pytest.mark.parametrize(['param_1', 'param_2', 'param_3', 'normal_flag'], [
         value_list for value_list in InterfaceTestcases([
             [['1', '10'], ['0', '7'], True],
