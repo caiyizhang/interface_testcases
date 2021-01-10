@@ -35,6 +35,12 @@
     for case in InterfaceTestcases(params):
         print(case)
 
+
+import pytest
+
+
+class Test1(object):
+
     # 结合pytest
     @pytest.mark.parametrize(['param_1', 'param_2', 'param_3', 'normal_flag'], [
         value_list for value_list in InterfaceTestcases([
@@ -44,7 +50,6 @@
             [[None, '', '1', '11'], [0, 'f2rewrawr'], False]
         ])
     ])
-
     def test_1(self, param_1, param_2, param_3, normal_flag):
         params = {
             'param_1': param_1,
