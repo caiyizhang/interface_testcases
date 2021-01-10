@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="interfacecases",
-    version="0.1.0",
+    name="interface_testcases",
+    version="0.1.1",
     author="Caiyizhang",
     author_email="1031282751@qq.com",
     description="提供接口测试用例生成方法",
