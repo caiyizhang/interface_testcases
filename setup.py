@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="interface_testcases",
-    version="0.1.2",
+    version="0.1.3",
     author="Caiyizhang",
     author_email="1031282751@qq.com",
     description="提供接口测试用例生成方法",
