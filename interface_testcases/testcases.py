@@ -4,6 +4,44 @@
 
 '''
  ~ 接口多参数测试用例生成
+   用例包括正常值paris-2组合的用例、异常值用例、不传必选参数用例和不传全部可选参数的用例
+
+示例：
+    # 一行代表一个参数，一个参数有3个属性。
+    # 前两个是列表，最后一个是布尔类型。分别是正常值、异常值和是否必选参数
+    params = [
+        [[1, 2], [0, 3], False],
+        [[-1, -2], [0, -3], True],
+        [[-3, 3], [-2, 4], False]
+    ]
+    for case in InterfaceTestcases(params):
+        print(case)
+
+    # 结合pytest
+    @pytest.mark.parametrize(['param_1', 'param_2', 'param_3', 'normal_flag'], [
+        value_list for value_list in InterfaceTestcases([
+            [['1', '10'], ['0', '7'], True],
+            [["1", '10', '100'], ['0', '101'], False],
+            [[None, '', 2161524184], ['1'], False],
+            [[None, '', '1', '11'], [0, 'f2rewrawr'], False]
+        ])
+    ])
+    def test_1(self, param_1, param_2, param_3, normal_flag):
+        params = {
+            'param_1': param_1,
+            'param_2': param_2,
+            'param_3': param_3
+        }
+
+        # params删除不传入的参数
+        params = {k: v for k, v in params.items() if v != 'no_param'}
+
+        if normal_flag == 'normal':
+            do_something_normal()
+        elif normal_flag == 'abnormal':
+            do_something_abnormal()
+        else:
+            pass
 
 '''
 
@@ -17,10 +55,26 @@ from allpairspy import AllPairs
 class InterfaceTestcases(object):
     """接口多参数测试用例生成"""
 
-    def __init__(self, params: List) -> None:
+    def __init__(self, params: List[List]) -> None:
+        '''
+            @params: params，一行代表一个参数，一个参数有3个属性。
+                            前两个是列表，最后一个是布尔类型。分别是正常值、异常值和是否必选参数
+        '''
         self.params = params
         self.normal_list = [row[0] for row in self.params]
         self.normal_cases = self.createPairs()
+        self._cases = self.createAllCases()
+        self._count = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self._count < len(self._cases):
+            self._count += 1
+            return self._cases[self._count - 1][:]
+        else:
+            raise StopIteration('已经到达临界')
 
     def createPairs(self):
         ''' 生成正常测试用例 '''
@@ -61,6 +115,7 @@ class InterfaceTestcases(object):
 
         for i, row in enumerate(self.params):
             if row[-1]:
+                # 判断参数是否必选
 
                 # new_case要深度拷贝，否则会改变normal_cases的值
                 new_case = random.choice(self.normal_cases)[:]
@@ -72,20 +127,35 @@ class InterfaceTestcases(object):
                 optional_param_cace[i] = 'no_param'
         return cases + [optional_param_cace] if is_has_option_param else cases
 
+    def createAllCases(self) -> List:
+        except_cases = self.createExceptionCases()
+        noparam_cases = self.createNoParamsCases()
+        return self.normal_cases + except_cases + noparam_cases
+
 
 if __name__ == "__main__":
-    row = [1, 2, 3, 4, 5, 6]
-    # print(random.choice(row))
-    # print(row.insert(0, 0))
-    # print(row)
+    # params = [
+    #     [[1, 2], [0, 3], False],
+    #     [[-1, -2], [0, -3], True],
+    #     [[-3, 3], [-2, 4], False]
+    # ]
+    # cases = InterfaceTestcases(params)
+    # print(cases.createPairs())
+    # print(cases.createExceptionCases())
+    # print(cases.createNoParamsCases())
+    # for case in cases:
+    #     print(case)
 
-    params = [
-        [[1, 2], [0, 3], False],
-        [[-1, -2], [0, -3], True],
-        [[-3, 3], [-2, 4], False]
-    ]
-    cases = InterfaceTestcases(params)
-    print(cases.createExceptionCases())
-    print(cases.createPairs())
-    # print(cases.getParamsRequiredInfo()[True])
-    print(cases.getNoParamsCases())
+    params = {
+        'a': 'no_param',
+        'b': 2,
+        'c': 'no_param',
+        'd': 4
+    }
+    # params.pop('a')
+    # params.popitem()
+    # print(params)
+    # print(params.pop('a'))
+    # print({k: v for k, v in params.items() if v != 'no_param'})
+    params = {k: v for k, v in params.items() if v != 'no_param'}
+    print(params)    
