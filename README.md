@@ -13,7 +13,7 @@
 
 ### 安装
 
-方法1. pip安装：pip install interface_testcases
+方法1. pip安装：pip install interface-testcases
 
 方法2. 下载源代码：git clone git@github.com:caiyizhang/interface_testcases.git
 
