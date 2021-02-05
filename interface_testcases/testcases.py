@@ -136,33 +136,4 @@ class InterfaceTestcases(object):
 
 
 if __name__ == "__main__":
-    # params = [
-    #     [[1, 2], [0, 3], False],
-    #     [[-1, -2], [0, -3], True],
-    #     [[-3, 3], [-2, 4], False]
-    # ]
-    # cases = InterfaceTestcases(params)
-    # print(cases.createPairs())
-    # print(cases.createExceptionCases())
-    # print(cases.createNoParamsCases())
-    # for case in cases:
-    #     print(case)
-
-    # params = {
-    #     'a': 'no_param',
-    #     'b': 2,
-    #     'c': 'no_param',
-    #     'd': 4
-    # }
-    # params.pop('a')
-    # params.popitem()
-    # print(params)
-    # print(params.pop('a'))
-    # print({k: v for k, v in params.items() if v != 'no_param'})
-
-    cases = [
-        value_list for value_list in InterfaceTestcases([
-            [[113217528951], [0, '0', '', None], True],
-        ])
-    ]
-    print(cases)
+    pass
