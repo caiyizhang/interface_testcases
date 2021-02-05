@@ -78,6 +78,8 @@ class InterfaceTestcases(object):
 
     def createPairs(self):
         ''' 生成正常测试用例 '''
+        if len(self.normal_list) <= 1:
+            return [case + ['normal'] for case in self.normal_list]
         return [row + ['normal'] for row in AllPairs(self.normal_list)]
 
     def getRandomNormalCaseWithoutExcptParam(self, param_id: int) -> List:
@@ -146,16 +148,21 @@ if __name__ == "__main__":
     # for case in cases:
     #     print(case)
 
-    params = {
-        'a': 'no_param',
-        'b': 2,
-        'c': 'no_param',
-        'd': 4
-    }
+    # params = {
+    #     'a': 'no_param',
+    #     'b': 2,
+    #     'c': 'no_param',
+    #     'd': 4
+    # }
     # params.pop('a')
     # params.popitem()
     # print(params)
     # print(params.pop('a'))
     # print({k: v for k, v in params.items() if v != 'no_param'})
-    params = {k: v for k, v in params.items() if v != 'no_param'}
-    print(params)    
+
+    cases = [
+        value_list for value_list in InterfaceTestcases([
+            [[113217528951], [0, '0', '', None], True],
+        ])
+    ]
+    print(cases)
