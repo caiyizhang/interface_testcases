@@ -5,6 +5,11 @@
 '''
  ~ 接口多参数测试用例生成
    用例包括正常值paris-2组合的用例、异常值用例、不传必选参数用例和不传全部可选参数的用例
+   每个用例取值后面会增加一个字符串，表示用例属性：
+   1、正常用例，取值是normal
+   2、缺少必选参数的异常用例，是missing_required_param
+   3、其它异常用例，是abnormal
+
 
 示例：
     # 一行代表一个参数，一个参数有3个属性。
@@ -122,7 +127,7 @@ class InterfaceTestcases(object):
                 # new_case要深度拷贝，否则会改变normal_cases的值
                 new_case = random.choice(self.normal_cases)[:]
                 new_case[i] = 'no_param'
-                new_case[-1] = 'abnormal'
+                new_case[-1] = 'missing_required_param'
                 cases.append(new_case)
             else:
                 is_has_option_param = True
