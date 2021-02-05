@@ -61,7 +61,7 @@ class InterfaceTestcases(object):
                             前两个是列表，最后一个是布尔类型。分别是正常值、异常值和是否必选参数
         '''
         self.params = params
-        self.normal_list = [row[0] for row in self.params]
+        self.normal_list = [list(set(row[0])) for row in self.params]
         self.normal_cases = self.createPairs()
         self._cases = self.createAllCases()
         self._count = 0
