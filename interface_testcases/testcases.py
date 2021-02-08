@@ -83,8 +83,10 @@ class InterfaceTestcases(object):
 
     def createPairs(self):
         ''' 生成正常测试用例 '''
-        if len(self.normal_list) <= 1:
-            return [case + ['normal'] for case in self.normal_list]
+        if len(self.normal_list) == 0:
+            return []
+        elif len(self.normal_list) == 1:
+            return [[case, 'normal'] for case in self.normal_list[0]]
         return [row + ['normal'] for row in AllPairs(self.normal_list)]
 
     def getRandomNormalCaseWithoutExcptParam(self, param_id: int) -> List:
