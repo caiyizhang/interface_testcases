@@ -51,9 +51,9 @@
 '''
 
 
+import datetime
 from typing import List
 import random
-
 from allpairspy import AllPairs
 
 
@@ -66,7 +66,7 @@ class InterfaceTestcases(object):
                             前两个是列表，最后一个是布尔类型。分别是正常值、异常值和是否必选参数
         '''
         self.params = params
-        self.normal_list = [list(set(row[0])) for row in self.params]
+        self.normal_list = [self.deDupliAndSort(row[0]) for row in self.params]
         self.normal_cases = self.createPairs()
         self._cases = self.createAllCases()
         self._count = 0
@@ -80,6 +80,12 @@ class InterfaceTestcases(object):
             return self._cases[self._count - 1][:]
         else:
             raise StopIteration('已经到达临界')
+
+    def deDupliAndSort(self, multi_type_list):
+        sorted_list = []
+        [sorted_list.append(data)
+         for data in multi_type_list if data not in sorted_list]
+        return sorted_list
 
     def createPairs(self):
         ''' 生成正常测试用例 '''
@@ -95,7 +101,9 @@ class InterfaceTestcases(object):
             return: 不包括异常参数的随机正常用例
         '''
         case = self.normal_list[:param_id] + self.normal_list[param_id+1:]
-        return [random.choice(row) for row in case]
+        # return [random.choice(row) for row in case]
+        day = datetime.date.today().day
+        return [row[day % len(row)] for row in case]
 
     def createExceptionCases(self) -> List:
         ''' 生成异常测试用例 '''
@@ -120,14 +128,19 @@ class InterfaceTestcases(object):
         is_has_option_param = False
 
         # 可选参数用例，case要深度拷贝，否则后面可能改变normal_cases的值
-        optional_param_cace = random.choice(self.normal_cases)[:]
+        # optional_param_cace = random.choice(self.normal_cases)[:]
+
+        day = datetime.date.today().day
+        optional_param_cace = self.normal_cases[day % len(self.normal_cases)][:]
 
         for i, row in enumerate(self.params):
             if row[-1]:
                 # 判断参数是否必选
 
                 # new_case要深度拷贝，否则会改变normal_cases的值
-                new_case = random.choice(self.normal_cases)[:]
+                # new_case = random.choice(self.normal_cases)[:]
+                new_case = self.normal_cases[day % len(self.normal_cases)][:]
+
                 new_case[i] = 'no_param'
                 new_case[-1] = 'missing_required_param'
                 cases.append(new_case)
@@ -143,4 +156,7 @@ class InterfaceTestcases(object):
 
 
 if __name__ == "__main__":
-    pass
+    # pass
+    # d = datetime.datetime()
+    # print(d.day)
+    print(type(datetime.date.today().day))
